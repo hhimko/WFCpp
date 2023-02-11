@@ -1,5 +1,5 @@
 all:
-	g++ -g -Wall src/main.cpp -o WFCpp
+	g++ -g -Wall -pedantic src/*.cpp -o WFCpp
 
 clean:
 	rm WFCpp
