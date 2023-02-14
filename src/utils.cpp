@@ -76,7 +76,7 @@ std::uint32_t* WFCpp::Utils::loadPPM(const char* path, uint32_t* pixels_width, u
     long val;
     uint32_t col;
     for (size_t i=0; i < pix_size; ++i) {
-        col = 0x00000000;
+        col = 0x000000FF;
 
         for (int ch=0; ch < 3; ++ch) {
             token = ppmReadToken(f);
@@ -88,7 +88,7 @@ std::uint32_t* WFCpp::Utils::loadPPM(const char* path, uint32_t* pixels_width, u
             if (val > maxval) val = maxval;
             col |= static_cast<uint8_t>((double)val/maxval * 255) << 8*(3 - ch);
         }
-        col += 0xFF; // set alpha to 0xFF
+        
         pixels[i] = col;
     }
 
