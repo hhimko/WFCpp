@@ -39,9 +39,12 @@ std::uint32_t* WFCpp::Utils::loadPPM(const char* path, uint32_t* pixels_width, u
     long pix_w, pix_h, maxval;
     size_t pix_size;
     uint32_t* pixels;
+    bool binary = false;
 
     magic = ppmReadToken(f);
-    if (magic != "P3") {
+    if (magic == "P6") {
+        binary = true;
+    } else if (magic != "P3") {
         std::cerr << "loadPPM: Unknown or unhandled PPM magic `" << magic << '`' << std::endl;
         goto loadPPM_fail_header;
     }
@@ -73,24 +76,44 @@ std::uint32_t* WFCpp::Utils::loadPPM(const char* path, uint32_t* pixels_width, u
     pix_size = pix_w * pix_h;
     pixels = new uint32_t[pix_size]{};
 
-    long val;
+
     uint32_t col;
-    for (size_t i=0; i < pix_size; ++i) {
-        col = 0x000000FF;
+    if (binary) {
+        f.get(); // read white character after maxval
 
-        for (int ch=0; ch < 3; ++ch) {
-            token = ppmReadToken(f);
-            if (token.length() == 0 || !parselong(token, &val) || val < 0) {
-                std::cerr << "loadPPM: File `" << path << "` is corrupted" << std::endl;
-                goto loadPPM_fail_raster;
-            } 
+        uint8_t val; 
+        for (size_t i=0; i < pix_size; ++i) {
+            col = 0x000000FF;
 
-            if (val > maxval) val = maxval;
-            col |= static_cast<uint8_t>((double)val/maxval * 255) << 8*(3 - ch);
+            for (int ch=0; ch < 3; ++ch) {
+                val = static_cast<uint8_t>(f.get());
+
+                if (val > maxval) val = maxval;
+                col |= static_cast<uint8_t>((double)val/maxval * 255) << 8*(3 - ch);
+            }
+            
+            pixels[i] = col;
         }
-        
-        pixels[i] = col;
+    } else {
+        long val;
+        for (size_t i=0; i < pix_size; ++i) {
+            col = 0x000000FF;
+
+            for (int ch=0; ch < 3; ++ch) {
+                token = ppmReadToken(f);
+                if (token.length() == 0 || !parselong(token, &val) || val < 0) {
+                    std::cerr << "loadPPM: File `" << path << "` is corrupted:" << token << std::endl;
+                    goto loadPPM_fail_raster;
+                } 
+
+                if (val > maxval) val = maxval;
+                col |= static_cast<uint8_t>((double)val/maxval * 255) << 8*(3 - ch);
+            }
+            
+            pixels[i] = col;
+        }
     }
+
 
     f.close();
     return pixels;
@@ -104,5 +127,9 @@ loadPPM_fail_header:
 
 bool WFCpp::Utils::savePPM(std::uint32_t* pixels, uint32_t pixels_width, uint32_t pixels_height, const char* path) {
     /// TODO: unimplemented
+    (void) pixels;
+    (void) pixels_width;
+    (void) pixels_height;
+    (void) path;
     return false;
 }
