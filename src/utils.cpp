@@ -54,14 +54,16 @@ std::uint32_t* WFCpp::Utils::loadPPM(const char* path, uint32_t* pixels_width, u
         std::cerr << "loadPPM: Invalid image width `" << token << '`' << std::endl;
         goto loadPPM_fail_header;
     }
-    *pixels_width = static_cast<uint32_t>(pix_w);
+    if (pixels_width != nullptr)
+        *pixels_width = static_cast<uint32_t>(pix_w);
 
     token = ppmReadToken(f);
     if (!parselong(token, &pix_h) || pix_h <= 0) {
         std::cerr << "loadPPM: Invalid image height `" << token << '`' << std::endl;
         goto loadPPM_fail_header;
     }
-    *pixels_height = static_cast<uint32_t>(pix_h);
+    if (pixels_height != nullptr)
+        *pixels_height = static_cast<uint32_t>(pix_h);
 
     token = ppmReadToken(f);
     if (!parselong(token, &maxval) || maxval <= 0) {
