@@ -37,15 +37,15 @@ int main() {
 
 
     // Free all pixel arrays allocated with Utils::loadPPM
-    free(grass_pixels);
-    free(flowers_pixels);
-    free(rock_pixels);
-    free(tree_bottom_pixels);
-    free(tree_top_pixels);
-    free(path_pixels);
-    free(path_corner_pixels);
-    free(path_tee_pixels);
-    free(path_end_pixels);
+    delete[] grass_pixels;
+    delete[] flowers_pixels;
+    delete[] rock_pixels;
+    delete[] tree_bottom_pixels;
+    delete[] tree_top_pixels;
+    delete[] path_pixels;
+    delete[] path_corner_pixels;
+    delete[] path_tee_pixels;
+    delete[] path_end_pixels;
 
     return 0;
 }

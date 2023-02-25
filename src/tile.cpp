@@ -5,7 +5,7 @@ WFCpp::Tile::Tile(std::uint32_t pixels[], size_t size, const std::string conn_to
     : m_pixels(pixels), m_size(size), m_conn_top(conn_top), m_conn_right(conn_right), m_conn_bottom(conn_bottom), m_conn_left(conn_left), m_rotation_flags(rotation_flags) {}
 
 
-WFCpp::Tile WFCpp::Tile::rotateLeft() 
+WFCpp::Tile WFCpp::Tile::rotateLeft() const
 {
     uint32_t* pixels = new uint32_t[m_size];
     for (size_t y = 0; y < m_size; ++y) {
@@ -17,7 +17,7 @@ WFCpp::Tile WFCpp::Tile::rotateLeft()
     return WFCpp::Tile(pixels, m_size, m_conn_top, m_conn_right, m_conn_bottom, m_conn_left, m_rotation_flags);
 };
 
-WFCpp::Tile WFCpp::Tile::rotateRight() 
+WFCpp::Tile WFCpp::Tile::rotateRight() const
 {
     uint32_t* pixels = new uint32_t[m_size];
     for (size_t y = 0; y < m_size; ++y) {
@@ -29,7 +29,7 @@ WFCpp::Tile WFCpp::Tile::rotateRight()
     return WFCpp::Tile(pixels, m_size, m_conn_top, m_conn_right, m_conn_bottom, m_conn_left, m_rotation_flags);
 };
 
-WFCpp::Tile WFCpp::Tile::flipHorizontally() 
+WFCpp::Tile WFCpp::Tile::flipHorizontally() const
 {
     uint32_t* pixels = new uint32_t[m_size];
     for (size_t y = 0; y < m_size; ++y) {
@@ -41,7 +41,7 @@ WFCpp::Tile WFCpp::Tile::flipHorizontally()
     return WFCpp::Tile(pixels, m_size, m_conn_top, m_conn_right, m_conn_bottom, m_conn_left, m_rotation_flags);
 };
 
-WFCpp::Tile WFCpp::Tile::flipVertically() 
+WFCpp::Tile WFCpp::Tile::flipVertically() const
 {
     uint32_t* pixels = new uint32_t[m_size];
     for (size_t y = 0; y < m_size; ++y) {

@@ -17,22 +17,22 @@ namespace WFCpp
 {
     class Tile {
         public:
-            std::uint32_t* getPixels() { return m_pixels; }
-            size_t getSize() { return m_size; }
-            const std::string getTopConnectivityString() { return m_conn_top; }
-            const std::string getRightConnectivityString() { return m_conn_right; }
-            const std::string getBottomConnectivityString() { return m_conn_bottom; }
-            const std::string getLeftConnectivityString() { return m_conn_left; }
-            uint8_t getRotationFlags() { return m_rotation_flags; }
+            std::uint32_t* getPixels() const { return m_pixels; }
+            size_t getSize() const { return m_size; }
+            const std::string getTopConnectivityString() const { return m_conn_top; }
+            const std::string getRightConnectivityString() const { return m_conn_right; }
+            const std::string getBottomConnectivityString() const { return m_conn_bottom; }
+            const std::string getLeftConnectivityString() const { return m_conn_left; }
+            uint8_t getRotationFlags() const { return m_rotation_flags; }
 
         public:
             Tile() = delete;
             Tile(std::uint32_t pixels[], size_t size, const std::string conn_top, const std::string conn_right, const std::string conn_bottom, const std::string conn_left, uint8_t rotation_flags);
 
-            Tile rotateLeft();
-            Tile rotateRight();
-            Tile flipHorizontally();
-            Tile flipVertically();
+            Tile rotateLeft() const;
+            Tile rotateRight() const;
+            Tile flipHorizontally() const;
+            Tile flipVertically() const;
 
         private:
             std::uint32_t* m_pixels;
